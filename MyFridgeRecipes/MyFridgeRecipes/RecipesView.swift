@@ -9,6 +9,7 @@ import SwiftUI
 
 
 struct RecipesView: View {
+    @Binding var path: NavigationPath
     var results: [String]  // 引数として渡された検索結果
     
     var body: some View {

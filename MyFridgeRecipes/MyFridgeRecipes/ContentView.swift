@@ -14,14 +14,11 @@ struct ContentView: View {
                         .foregroundColor(.white)
                         .background(Color.green)
                         .cornerRadius(10)
-                        .onAppear {
-                            //ゆくゆくは楽天レシピAPIを呼ぶメソッドを呼ぶことにしたい。
-                            performSearch()
-                        }
                 }
-                .navigationDestination(for: [String].self) { results in
-                    RecipesView(path: $path, results: results)
-                }
+                .simultaneousGesture(TapGesture().onEnded {
+                    // 将来的に楽天レシピAPIを呼ぶメソッドに置き換え予定
+                    performSearch()
+                })
                 
                 NavigationLink("食材登録", destination: RecipeFoodRegisterView())
                     .padding()
@@ -36,6 +33,19 @@ struct ContentView: View {
                     .cornerRadius(10)
             }
             .navigationTitle("トップ画面")
+            //楽天APIを使ってると
+            //画面の余白を入れるビュー。
+            //ここではボタン群とクレジット表示の間に縦方向の空きを作って、下に寄せるために置いています。
+            Spacer()
+            // "Supported by Rakuten Developers" がユーザーに表示される文字列。
+            // destination には飛び先URLを指定。! は強制アンラップで「このURLは必ずある」と宣言。
+            Link("Supported by Rakuten Developers", destination: URL(string: "https://developers.rakuten.com/")!)
+                //文字サイズを小さめの脚注（footnote）にする。ガイドラインの「目立ちすぎず、でも見える」感じ
+                .font(.footnote)
+                //色を「セカンダリ」（グレー寄りの控えめな色）にする。本文より目立たなくする工夫です。
+                .foregroundStyle(.secondary)
+                //上に20ポイント分の余白を空ける。ボタン群やタイトルと間隔をあけるため。
+                .padding(.top, 20)
         }
     }
     
